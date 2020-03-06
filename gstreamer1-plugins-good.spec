@@ -84,5 +84,5 @@ install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
-* Thu Mar 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.14.4-3
+* Fri Mar 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.14.4-3
 - Package init
