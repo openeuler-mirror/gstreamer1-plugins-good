@@ -1,67 +1,88 @@
-Name:           gstreamer1-plugins-good
-Version:        1.14.4
-Release:        2
-Summary:        Good code and licensing for GStreamer plugins 
-License:        LGPLv2+
-URL:            http://gstreamer.freedesktop.org/
-Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%{version}.tar.xz
-Source1:        gstreamer-good.appdata.xml
-BuildRequires:  gcc-c++ gstreamer1-devel >= %{version} gstreamer1-plugins-base-devel >= %{version}
-BuildRequires:  flac-devel >= 1.1.4 gdk-pixbuf2-devel libjpeg-devel libpng-devel >= 1.2.0
-BuildRequires:  libshout-devel libsoup-devel libX11-devel libXext-devel libXdamage-devel
-BuildRequires:  libXfixes-devel orc-devel pulseaudio-libs-devel speex-devel taglib-devel
-BuildRequires:  wavpack-devel libv4l-devel libvpx-devel >= 1.1.0 gtk3-devel >= 3.4
-BuildRequires:  mesa-libGL-devel mesa-libGLES-devel mesa-libGLU-devel mesa-libEGL-devel
-BuildRequires:  lame-devel mpg123-devel twolame-devel gtk-doc python2-devel libraw1394-devel
-BuildRequires:  jack-audio-connection-kit-devel libavc1394-devel libdv-devel libiec61883-devel
-Obsoletes:      gstreamer1-plugin-mpg123 < 1.13.1
-Obsoletes:      gstreamer1-plugins-bad-free-gtk < 1.13.1-2
-obsoletes:      gstreamer1-plugins-good-gtk < %{version}-%{release}
-obsoletes:      gstreamer1-plugins-good-extras < %{version}-%{release}
-Provides:       gstreamer1-plugin-mpg123 = %{version}-%{release}
-Provides:       gstreamer1-plugins-good-extras = %{version}-%{release}
-Provides:       gstreamer1-plugins-bad-free-gtk = %{version}-%{release}
-Provides:       gstreamer1-plugins-good-gtk = %{version}-%{release}
+%bcond_with extras
+%bcond_with qt
+
+Name:		    gstreamer1-plugins-good		
+Version:	    1.14.4
+Release:	    3
+Summary:	    GStreamer plugins with good code and licensing
+License:	    LGPLv2+	
+URL:		    http://gstreamer.freedesktop.org/
+Source0:	    http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%{version}.tar.xz
+Source1:	    gstreamer-good.appdata.xml
+
+BuildRequires:	gcc gcc-c++ gstreamer1-devel gstreamer1-plugins-base-devel flac-devel
+BuildRequires:  gdk-pixbuf2-devel libjpeg-devel libpng-devel libshout-devel orc-devel
+BuildRequires:  libsoup-devel libX11-devel libXext-devel libXdamage-devel libXfixes-devel
+BuildRequires:  pulseaudio-libs-devel speex-devel taglib-devel wavpack-devel libv4l-devel
+BuildRequires:  libvpx-devel gtk3-devel mesa-libGL-devel mesa-libGLES-devel lame-devel
+BuildRequires:  mesa-libEGL-devel mesa-libGLU-devel mpg123-devel twolame-devel libdv-devel
+BuildRequires:  libavc1394-devel libiec61883-devel libraw1394-devel gtk-doc python2-devel
+
+Provides:       gstreamer1-plugins-mpg123 = %{version}-%{release}
+Obsoletes:   	gstreamer1-plugins-mpg123 < %{version}-%{release}
 
 %description
-GStreamer is a framework for constructing graphs of various filters that will handle
-streaming media. Any discrete (packetizable) media type is supported, with provisions
-for automatically determining source type. Formatting/framing information is provided
-with a powerful negotiation framework.
+GStreamer is a streaming media framework, based on graphs of filters which
+operate on media data. Applications using this library can do anything
+from real-time sound processing to playing videos, and just about anything
+else media-related.  Its plugin-based architecture means that new data
+types or processing capabilities can be added simply by installing new
+plugins.
+
+GStreamer Good Plugins is a collection of well-supported plugins of
+good quality and under the LGPL license.
+
+%package	 	gtk
+Summary:		gtk plugin for gstreamer1-plugins-good
+Requires:		%{name} = %{version}-%{release}
+Provides:		gstreamer1-plugins-bad-free-gtk = %{version}-%{release}
+Obsoletes:		gstreamer1-plugins-bad-free-gtk < %{version}-%{release}
+
+%description    gtk
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+GStreamer Good Plugins is a collection of well-supported plugins of
+good quality and under the LGPL license.
+
+%package_help
 
 %prep
-%autosetup -n gst-plugins-good-%{version}
+%autosetup -n gst-plugins-good-%{version} -p1
 
 %build
-%configure --disable-silent-rules --disable-fatal-warnings \
-  --with-package-name='GStreamer1-plugins-good package' \
-  --with-package-origin='https://gstreamer.freedesktop.org/src/gst-plugins-good/' \
-  --enable-experimental --enable-gtk-doc --enable-orc \
-  --disable-monoscope --disable-aalib --disable-cairo \
-  --disable-libcaca --disable-qt --with-default-visualizer=autoaudiosink\
-  --enable-jack
+%configure --disable-silent-rules --disable-fatal-warnings --enable-experimental \
+           --enable-gtk-doc --enable-orc --disable-monoscope --disable-aalib \
+           --disable-cairo --disable-libcaca --disable-jack  \
+           --with-default-visualizer=autoaudiosink 
 
-%make_build V=1
+%make_build
 
 %install
-%make_install
+%make_install 
+%delete_la_and_a
+install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 
-mkdir -p %{buildroot}%{_metainfodir}/
-cp %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
-touch %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
-
-%delete_la
-
-%find_lang gst-plugins-good-1.0
-
-%files -f gst-plugins-good-1.0.lang
-%doc AUTHORS README REQUIREMENTS COPYING
-%{_metainfodir}/gstreamer-good.appdata.xml
-%doc %{_datadir}/gtk-doc/html/gst-plugins-good-plugins-1.0
-%dir %{_datadir}/gstreamer-1.0/presets/
-%{_datadir}/gstreamer-1.0/presets/*
+%files 
+%defattr(-,root,root)
+%doc AUTHORS 
+%license COPYING
 %{_libdir}/gstreamer-1.0/*.so
+%{_datadir}/locale/*
+%dir %{_datadir}/gstreamer-1.0/presets 
+%{_datadir}/gstreamer-1.0/presets/*.prs
+%{_metainfodir}/gstreamer-good.appdata.xml
+%exclude %{_libdir}/gstreamer-1.0/libgstgtk.so
+
+%files 		gtk
+%defattr(-,root,root)
+%{_libdir}/gstreamer-1.0/libgstgtk.so
+
+%files		help
+%defattr(-,root,root)
+%doc README REQUIREMENTS
+%doc %{_datadir}/gtk-doc/html/*
 
 %changelog
-* Tue Dec 03 2019 zhujunhao <zhujunhao5@huawei.com> - 1.14.4-2
+* Thu Mar 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.14.4-3
 - Package init
