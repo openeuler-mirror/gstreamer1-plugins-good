@@ -2,8 +2,8 @@
 %bcond_with qt
 
 Name:		    gstreamer1-plugins-good		
-Version:	    1.14.4
-Release:	    3
+Version:	    1.16.2
+Release:	    1
 Summary:	    GStreamer plugins with good code and licensing
 License:	    LGPLv2+	
 URL:		    http://gstreamer.freedesktop.org/
@@ -14,7 +14,7 @@ BuildRequires:	gcc gcc-c++ gstreamer1-devel gstreamer1-plugins-base-devel flac-d
 BuildRequires:  gdk-pixbuf2-devel libjpeg-devel libpng-devel libshout-devel orc-devel
 BuildRequires:  libsoup-devel libX11-devel libXext-devel libXdamage-devel libXfixes-devel
 BuildRequires:  pulseaudio-libs-devel speex-devel taglib-devel wavpack-devel libv4l-devel
-BuildRequires:  libvpx-devel gtk3-devel mesa-libGL-devel mesa-libGLES-devel lame-devel
+BuildRequires:  libvpx-devel gtk3-devel mesa-libGL-devel libglvnd-devel lame-devel
 BuildRequires:  mesa-libEGL-devel mesa-libGLU-devel mpg123-devel twolame-devel libdv-devel
 BuildRequires:  libavc1394-devel libiec61883-devel libraw1394-devel gtk-doc python2-devel
 
@@ -84,5 +84,11 @@ install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Wed Aug 19 2020 jinzhimin <jinzhimin2@huawei.com> - 1.16.2-1
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:update to 1.16.2
+
 * Fri Mar 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 1.14.4-3
 - Package init
