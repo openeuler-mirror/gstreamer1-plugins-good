@@ -3,7 +3,7 @@
 
 Name:		    gstreamer1-plugins-good		
 Version:	    1.16.2
-Release:	    1
+Release:	    2
 Summary:	    GStreamer plugins with good code and licensing
 License:	    LGPLv2+	
 URL:		    http://gstreamer.freedesktop.org/
@@ -16,7 +16,7 @@ BuildRequires:  libsoup-devel libX11-devel libXext-devel libXdamage-devel libXfi
 BuildRequires:  pulseaudio-libs-devel speex-devel taglib-devel wavpack-devel libv4l-devel
 BuildRequires:  libvpx-devel gtk3-devel mesa-libGL-devel libglvnd-devel lame-devel
 BuildRequires:  mesa-libEGL-devel mesa-libGLU-devel mpg123-devel twolame-devel libdv-devel
-BuildRequires:  libavc1394-devel libiec61883-devel libraw1394-devel gtk-doc python2-devel
+BuildRequires:  libavc1394-devel libiec61883-devel libraw1394-devel gtk-doc
 
 Provides:       gstreamer1-plugins-mpg123 = %{version}-%{release}
 Obsoletes:   	gstreamer1-plugins-mpg123 < %{version}-%{release}
@@ -84,6 +84,12 @@ install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Thu Oct 29 2020 gaihuiying <gaihuiying1@huawei.com> - 1.16.2-2
+- Type:requirement
+- ID:NA
+- SUG:NA
+- DESC:remove python2
+
 * Thu Aug 06 2020 yuboyun <yuboyun@huawei.com> - 1.16.2-1
 - Type:bugfix
 - ID:NA
