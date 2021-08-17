@@ -3,12 +3,15 @@
 
 Name:		    gstreamer1-plugins-good		
 Version:	    1.16.2
-Release:	    2
+Release:	    3
 Summary:	    GStreamer plugins with good code and licensing
 License:	    LGPLv2+	
 URL:		    http://gstreamer.freedesktop.org/
 Source0:	    http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%{version}.tar.xz
 Source1:	    gstreamer-good.appdata.xml
+
+Patch6000:          backport-CVE-2021-3497.patch
+Patch6001:          backport-CVE-2021-3498.patch
 
 BuildRequires:	gcc gcc-c++ gstreamer1-devel gstreamer1-plugins-base-devel flac-devel
 BuildRequires:  gdk-pixbuf2-devel libjpeg-devel libpng-devel libshout-devel orc-devel
@@ -84,6 +87,12 @@ install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Tue Aug 17 2021 yanglu <yanglu72@huawei.com> - 1.16.2-3
+- Type:cves
+- ID:CVE-2021-3497 CVE-2021-3498
+- SUG:NA
+- DESC:fix CVE-2021-3497 CVE-2021-3498
+
 * Sat Nov 21 2020 gaihuiying <gaihuiying1@huawei.com> - 1.16.2-2
 - Type:bugfix
 - ID:NA
