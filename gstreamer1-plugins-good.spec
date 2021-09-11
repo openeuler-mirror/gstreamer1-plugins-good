@@ -3,7 +3,7 @@
 
 Name:		    gstreamer1-plugins-good		
 Version:	    1.16.2
-Release:	    3
+Release:	    4
 Summary:	    GStreamer plugins with good code and licensing
 License:	    LGPLv2+	
 URL:		    http://gstreamer.freedesktop.org/
@@ -20,6 +20,7 @@ BuildRequires:  pulseaudio-libs-devel speex-devel taglib-devel wavpack-devel lib
 BuildRequires:  libvpx-devel gtk3-devel mesa-libGL-devel libglvnd-devel lame-devel
 BuildRequires:  mesa-libEGL-devel mesa-libGLU-devel mpg123-devel twolame-devel libdv-devel
 BuildRequires:  libavc1394-devel libiec61883-devel libraw1394-devel gtk-doc
+BuildRequires:  chrpath
 
 Provides:       gstreamer1-plugins-mpg123 = %{version}-%{release}
 Obsoletes:   	gstreamer1-plugins-mpg123 < %{version}-%{release}
@@ -66,6 +67,13 @@ good quality and under the LGPL license.
 %delete_la_and_a
 install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 
+chrpath -d %{buildroot}%{_libdir}/gstreamer-1.0/libgstshout2.so
+
+mkdir -p %{buildroot}/etc/ld.so.conf.d
+echo "%{_libdir}" > %{buildroot}/etc/ld.so.conf.d/%{name}-%{_arch}.conf
+
+%ldconfig_scriptlets
+
 %files 
 %defattr(-,root,root)
 %doc AUTHORS 
@@ -76,6 +84,7 @@ install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 %{_datadir}/gstreamer-1.0/presets/*.prs
 %{_metainfodir}/gstreamer-good.appdata.xml
 %exclude %{_libdir}/gstreamer-1.0/libgstgtk.so
+%config(noreplace) /etc/ld.so.conf.d/*
 
 %files 		gtk
 %defattr(-,root,root)
@@ -87,6 +96,12 @@ install -p -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-good.appdata.xml
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Fri Sep 10 2021 gaihuiying <gaihuiying1@huawei.com> - 1.16.2-4
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:remove rpath of libgstshout2.so
+
 * Mon Aug 16 2021 yanglu <yanglu72@huawei.com> - 1.16.2-3
 - Type:cves
 - ID:CVE-2021-3497 CVE-2021-3498
